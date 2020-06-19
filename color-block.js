@@ -26,23 +26,24 @@ function reset() {
 
 //boxes can be selected or unselected by a click on them, when they are clicked the border of the box has a different color (state = "selected")
 function select(event) {
-    if (event.target.className.includes("span")) {
-        if (event.target.parentElement.className.includes("selected")) {
-            event.target.parentElement.className = "box"
-        } else {
-            event.target.parentElement.className = "box selected"
-        }
-    }
-    console.log(event.target.parentElement.className.value);
-    if (event.target.className.includes("selected")) {
-        event.target.className = "box"
+    if (event.currentTarget.className.includes("selected")) {
+        event.currentTarget.className = "box"
     } else {
-        event.target.className = "box selected"
+        event.currentTarget.className = "box selected"
     }
 }
 
 //when click on "remove selected" : remove from the list all the selected boxes and reattribute the numbers on each box, starting from 1
+function remove() {
+    for (let i = 0; i < allBoxes.length; i++) {
+        if (allBoxes[i].className.includes("selected")) allBoxes[i].remove();
+    }
+    boxListCount = allBoxes.length;
 
+    for (let i = 0; i < boxListCount; i++) {
+        allBoxes[i].innerHTML = `<span>${i + 1}</span>`;
+    }
+}
 
 //event-listener : on click create color box(es)
 btnCreate.onclick = createBox;
@@ -53,14 +54,13 @@ function listenSelect(allBoxes) {
         allBoxes[i].addEventListener("click", select);
     }
 };
-listenSelect(allBoxes);
 
 
 //event-listener : on click reset
 btnReset.onclick = reset;
 
 //event-listener : on click remove selected boxes
-
+btnRemove.onclick = remove;
 
 console.log(allBoxes);
 
